@@ -1,0 +1,29 @@
+{
+  "name": "ecom-backend",
+  "version": "1.0.0",
+  "description": "NodeJS backend serving services for ReactJS frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "start-env": "node --env-file=.env index.js",
+    "dev": "node --watch --env-file=.env index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.633.0",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "compression": "^1.7.4",
+    "express": "^4.19.2",
+    "http-status-codes": "^2.3.0",
+    "multer": "^1.4.5-lts.1",
+    "postgres": "^3.4.4",
+    "uuid": "^10.0.0",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.0.3",
+    "morgan": "^1.10.0"
+  }
+}
