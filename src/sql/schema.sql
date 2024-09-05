@@ -78,6 +78,7 @@ CREATE TABLE public.product_images (
 CREATE TABLE public.category_images (
     id SERIAL PRIMARY KEY,
     category_id INT REFERENCES public.categories(category_id),
+    image_key VARCHAR(255) NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     hosting_type VARCHAR(20) NOT NULL, -- e.g., 's3' or 'external'
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()

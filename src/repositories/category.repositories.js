@@ -64,6 +64,66 @@ class CategoryRepository {
             }
         }
     }
+    static async createCategory({ name, images }) {
+        try {
+            const createResult = await db.sql.begin(async sql => {
+                const [category] = await sql`
+                    INSERT INTO categories (
+                        name
+                    )
+                    VALUES (
+                        ${name}
+                    )
+                    RETURNING category_id
+                `;
+                const categoryId = category.category_id;
+                console.log("created category, proceed to adding images");
+                const imagePayload = images.map(image => {
+                    return {
+                        category_id: categoryId,
+                        image_key: image.imageKey,
+                        image_url: image.imageUrl,
+                        hosting_type: image.hostingType,
+                    }
+                })
+                const categoryImages = (await sql.savepoint(sql => sql`
+                    INSERT INTO category_images ${sql(imagePayload, "category_id", "image_key", "image_url", "hosting_type")}
+                    RETURNING id
+                `)
+                    .then(res => {
+                        return res.map(val => {
+                            return {
+                                id: val.id
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.error("Error saving images in transaction:", err);
+                    })) || [];
+
+                return {
+                    category: {
+                        id: categoryId,
+                    },
+                    images: categoryImages,
+                }
+            })
+                .then(({ category }) => {
+                    return {
+                        categoryId: category.id,
+                        err: null,
+                    }
+                });
+
+            return createResult;
+        } catch (err) {
+            console.error("Error creating category:", err);
+            return {
+                categoryId: null,
+                err: err
+            };
+        }
+    }
 }
 
 module.exports = CategoryRepository;

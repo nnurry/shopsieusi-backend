@@ -59,7 +59,7 @@ class ProductController {
             const imgNameSpl = productImage.originalname.split(".");
             const imgExt = imgNameSpl[imgNameSpl.length - 1];
             const ts = new Date().getTime();
-            const imgName = `${ts}-${uuid()}.${imgExt}`;
+            const imgName = `images/${ts}-${uuid()}.${imgExt}`;
             const uploadResult = await s3ImageService.uploadImage(imgName, productImage.buffer);
 
             if (uploadResult.status != status.CREATED) {
@@ -148,7 +148,7 @@ class ProductController {
             const imgNameSpl = productImage.originalname.split(".");
             const imgExt = imgNameSpl[imgNameSpl.length - 1];
             const ts = new Date().getTime();
-            const imgName = `${ts}-${uuid()}.${imgExt}`;
+            const imgName = `images/${ts}-${uuid()}.${imgExt}`;
             const uploadResult = await s3ImageService.uploadImage(imgName, productImage.buffer);
 
             if (uploadResult.status != status.CREATED) {

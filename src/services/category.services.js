@@ -41,6 +41,21 @@ class CategoryService {
             message: "category not found",
         }
     }
+    static async createCategory({ name, images }) {
+        const res = await categoryRepo.createCategory({name, images});
+        if (res.err != null) {
+            return {
+                status: status.INTERNAL_SERVER_ERROR,
+                categoryId: null,
+                message: "server error",
+            };
+        }
+        return {
+            status: status.CREATED,
+            categoryId: res.categoryId,
+            message: "category created successfully",
+        };
+    }
 }
 
 module.exports = CategoryService;
